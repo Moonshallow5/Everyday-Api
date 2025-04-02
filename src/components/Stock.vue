@@ -33,7 +33,9 @@
 </template>
 
 
-
+<!-- "percent_change_1h": -0.152774,
+"percent_change_24h": 0.518894,
+"percent_change_7d": 0.986573 -->
 <script>
 import axios from 'axios';
 import CoinChart from './CoinChart.vue';

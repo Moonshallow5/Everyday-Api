@@ -7,9 +7,9 @@
       <h2>An all in one Platform</h2>
       </v-col>
       <v-col cols="12">
-       <v-btn class="mt-3 mx-3 " color="primary" @click="this.$router.push('weather')">Weather</v-btn>
-       <v-btn class="mt-3 mx-3 " color="primary"  @click="this.$router.push('stock')">Stock</v-btn>
-       <v-btn class="mt-3 mx-3 " color="primary">Your Daily Tasks</v-btn>
+       <v-btn class="mt-3 mx-3 " color="primary" style="text-transform: none;" @click="this.$router.push('weather')">Weather</v-btn>
+       <v-btn class="mt-3 mx-3 " color="primary" style="text-transform: none;"  @click="this.$router.push('stock')">Stock</v-btn>
+       <v-btn class="mt-3 mx-3 " color="primary" style="text-transform: none;" @click="this.$router.push('todo')">Your Daily Tasks</v-btn>
        </v-col>
 
     </v-row>

@@ -13,6 +13,7 @@ import Weather from '@/components/Weather.vue'
 import HelloWorld from '@/components/HelloWorld.vue'
 import Stock from '@/components/Stock.vue'
 import CoinChart from '@/components/CoinChart.vue'
+import ToDo from '@/components/ToDo.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,12 +37,20 @@ const router = createRouter({
       component:CoinChart,
       name:"stock2"
     },
+
+    {
+
+      path:"/todo",
+      component:ToDo,
+      name:"todo"
+    },
     {
 
       path:"/",
       component:HelloWorld,
       name:"home"
     },
+
     
   ]
 
