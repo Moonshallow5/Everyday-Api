@@ -27,6 +27,38 @@ app.get("/todos", async (req, res) => {
   res.json(result.rows);
 });
 
+app.get('/summary',async (req,res)=>{
+  try {
+    const result = await pool.query('SELECT title, description FROM todos');
+    const tasks = result.rows;
+
+    if (!tasks.length) {
+      return res.json({ summary: 'No tasks found.' });
+    }
+
+    // Build the prompt
+    let prompt = 'These are my tasks for today:\n';
+    tasks.forEach((task, idx) => {
+      prompt += `${idx + 1}. ${task.title} - ${task.description}\n`;
+    });
+    prompt += '\nCan you give me a summary of what my tasks are and please limit your answers.';
+    console.log(prompt)
+
+    const ollamaResponse = await axios.post(' http://127.0.0.1:11434/api/generate', {
+      model: 'llama3.2', 
+      prompt: prompt,
+      stream: false,
+    });
+
+    res.json({ summary: ollamaResponse.data.response });
+  }catch(error){
+    console.error(error.message)
+    
+  }
+    
+
+})
+
 // Add a new todo
 app.post("/todos", async (req, res) => {
   const { title, description } = req.body;

@@ -6,7 +6,7 @@
     <v-row class="mt-3">
 
         <v-col cols="auto">
-            Your Pending Tasks:
+            Your Pending Tasks:<v-btn @click="ml_speak" > Talk</v-btn>
             </v-col>
             </v-row>
 
@@ -43,6 +43,12 @@
         
       </v-col>
     </v-row>
+
+    <div class="mt-3">
+    <h2>🧠 Your Daily Task Summary</h2>
+    <p v-if="loading">Loading from LLM...</p>
+    <p v-else>{{ summary }}</p>
+  </div>
             
 
 
@@ -60,20 +66,28 @@ export default{
         return{
             todos:[],
             editMode: false,
+            loading:true,
 
             dialog:false,
             title:'',
             description:'',
             newTodo: {id: null, title: "", description: "" },
-
-
-
+            summary:'',
         }
     },
     methods:{
         async fetchTodo(){
             const response = await axios.get("http://localhost:5000/todos");
             this.todos = response.data;
+
+        },
+
+        async ml_speak(){
+            const res = await fetch('http://localhost:5000/summary');
+             const data = await res.json();
+            this.summary= data.summary;
+            console.log(this.summary)
+            this.loading=false
 
         },
         openDialog(todo = null) {

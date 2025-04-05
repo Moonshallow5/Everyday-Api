@@ -21,8 +21,11 @@
           <h3>Current Temperature: {{ currentTemp }}°C</h3>
           <p>Condition: {{ currentCondition }}</p>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="3">
           <v-img :src="currentIcon" max-height="80px" max-width="80px"></v-img>
+        </v-col>
+        <v-col cols="3">
+            <v-btn @click="ml_speak" > Talk</v-btn>
         </v-col>
       </v-row>
     </v-card>
@@ -66,6 +69,12 @@
     </v-card>
     </v-col>
     </v-row>
+
+    <div class="mt-3">
+    <h2>🧠 Your Daily Task Summary</h2>
+    <p v-if="loading">Loading from LLM...</p>
+    <p v-else>{{ summary }}</p>
+  </div>
     </div>
  
 
@@ -95,6 +104,9 @@ export default{
       hourlyForecast:[],
       forecast:[],
       selectedCity:'',
+      loading:false,
+      summary:'',
+      prompt2:'',
       cityOptions: [
         { name: "London, UK", value: "London" },
         { name: "New York, USA", value: "New York" },
@@ -139,8 +151,34 @@ export default{
                 console.error('error')
             }
 
+        },
+        async ml_speak(){
+            
+        if (!this.forecast || this.forecast.length === 0) return '';
+        let prompt = `Can you summarize the upcoming weather for ${this.selectedCity} over the next few days?\n\n`;
+        this.forecast.forEach(day => {
+            const date = day.date;
+            const condition = day.day.condition.text;
+            const maxTemp = day.day.maxtemp_c;
+            const minTemp = day.day.mintemp_c;
+            prompt += `On ${date}, it will be ${condition} with a high of ${maxTemp}°C and a low of ${minTemp}°C.\n`;
+        });
+        console.log(prompt)
+        this.prompt2= prompt + "\nMake it informational, talk in terms of date, condition, max temperature and min temperature. Don't say that you don't have  have real-time access to current weather conditions or forecasts as I'm providing data already for you";
+
+
+         const ollamaResponse = await axios.post(' http://127.0.0.1:11434/api/generate', {
+      model: 'llama3.2', 
+      prompt: this.prompt2,
+      stream: false,
+    });
+
+    this.summary=ollamaResponse.data.response
+
         }
-    },
+        },
+
+
     
 
 }

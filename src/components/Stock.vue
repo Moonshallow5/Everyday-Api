@@ -8,10 +8,10 @@
     <hr />
     <v-row class="mt-5">
         <v-col cols="6">
-    <v-card class="mr-5" >
+    <v-card class="mr-5 pa-4" >
         
             <h3>📊 Live Crypto Prices</h3>
-            <p>Bitcoin: ${{ btc_price }} , ({{ btc_24h }})%</p>
+            <p>Bitcoin: ${{ btc_price }}, ({{ btc_24h }})%</p>
             <p>Ethereum:${{ eth_price }}, ({{ eth_24h }})% </p>
         
     </v-card>
@@ -27,6 +27,11 @@
         </v-col>
 
   </v-row>
+  <v-btn @click="ml_speak" > Talk</v-btn>
+  <div v-if="summary">
+  <h3>📈 LLM Crypto Insight</h3>
+  <p>{{ summary }}</p>
+</div>
 
 
     </v-container>
@@ -53,7 +58,10 @@ export default{
             eth_price:'',
             btc_24h:'',
             eth_24h:'',
+            btc_per_change_7d:'',
+            eth_per_change_7d:'',
             selected_coin:'',
+            summary:'',
         }
     },
 //b81e9630-af47-49a3-85cc-6df9652154e4
@@ -71,8 +79,44 @@ export default{
 
         this.btc_24h=btc.quote.USD.percent_change_24h.toFixed(2)
         this.eth_24h=eth.quote.USD.percent_change_24h.toFixed(2)
+        this.btc_per_change_7d=btc.quote.USD.percent_change_7d.toFixed(2)
+        this.eth_per_change_7d=eth.quote.USD.percent_change_7d.toFixed(2)
 
         },
+        async ml_speak(){
+
+
+            const prompt = `
+Here is the latest crypto data:
+
+Bitcoin (BTC)
+- Current Price: $${this.btc_price}
+- 24h Change: ${this.btc_24h}%
+- 7d Change: ${this.btc_per_change_7d}%
+
+Ethereum (ETH)
+- Current Price: $${this.eth_price}
+- 24h Change: ${this.eth_24h}%
+- 7d Change: ${this.eth_per_change_7d}%
+
+
+  `;    
+    
+  try {
+    const ollamaResponse = await axios.post('http://127.0.0.1:11434/api/generate', {
+      model: 'llama3.2',
+      prompt: prompt,
+      stream: false,
+    });
+
+    this.summary = ollamaResponse.data.response;
+  } catch (err) {
+    console.error("Error talking to Ollama:", err.message);
+    this.summary = "Failed to fetch investment advice.";
+  }
+
+    
+            }
 
     
     },
