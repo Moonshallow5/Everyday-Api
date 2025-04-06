@@ -6,10 +6,9 @@
 
 
 <script>
-import { Line } from 'vue-chartjs';
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
+import { Chart as ChartJS, Title,  LineController, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
 import axios from 'axios';
-ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement);
+ChartJS.register(Title, Tooltip,  LineController,Legend, LineElement, CategoryScale, LinearScale, PointElement);
 
 export default{
     props: ['coinId'],
