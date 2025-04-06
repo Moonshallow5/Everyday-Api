@@ -184,31 +184,6 @@ export default{
             },
             
 
-    //         const chatPrompt = [
-    //     {
-    //         role: "system",
-    //         content: "You are a helpful and friendly weather assistant."
-    //     },
-    //     {
-    //         role: "user",
-    //         content: this.prompt2
-    //     }
-    // ];
-
-    // try {
-    //     const response = await axios.post(
-    //         'https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta',
-    //         {inputs: {
-    //                 text: this.prompt2
-    //             }
-    //         },
-    //         {
-    //             headers: {
-    //                 Authorization: `Bearer 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`,
-                  
-    //             }
-    //         }
-    //     );
     async cancel_talk(){
         await responsiveVoice.cancel();
 
