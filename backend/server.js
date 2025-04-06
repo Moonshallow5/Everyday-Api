@@ -3,6 +3,8 @@ import axios from "axios";
 import cors from "cors";
 import dotenv from "dotenv"; // ✅ Import dotenv
 import  pg from 'pg';
+import ngrok from "@ngrok/ngrok";
+
 dotenv.config(); // ✅ Load environment variables
 
 const app = express();
@@ -96,6 +98,24 @@ app.delete("/todos/:id", async (req, res) => {
 
   res.json({ message: "Todo deleted successfully" });
 });
+
+// Route that proxies to Ollama
+app.post('/api/generate', async (req, res) => {
+  const { prompt, model = 'llama3.2' } = req.body;
+
+  try {
+    const ollamaResponse = await axios.post('https://calculators-grill-tariff-dial.trycloudflare.com/api/generate', {
+      prompt,
+      model,
+      stream: false,
+    });
+
+    res.json(ollamaResponse.data);
+  } catch (error) {
+    console.error('Error fetching from Ollama:', error.message);
+    res.status(500).json({ error: 'Failed to get response from Ollama' });
+  }
+});
 app.get("/crypto", async (req, res) => {
   console.log("API Key:", process.env.COIN_API_KEY);
 
@@ -111,4 +131,11 @@ app.get("/crypto", async (req, res) => {
     }
   });
 
-  app.listen(5000, () => console.log("Server running on port 5000"));
+  const PORT = process.env.PORT || 5000;
+
+
+// Start server and ngrok
+app.listen(PORT, async () => {
+  console.log(`Local server running on http://localhost:${PORT}`);
+
+});

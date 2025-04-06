@@ -170,15 +170,16 @@ export default{
             this.prompt2= prompt + "\nMake it informational, talk in terms of date, condition, max temperature and min temperature. Don't say that you don't have  have real-time access to current weather conditions or forecasts as I'm providing data already for you";
     
     
-             const ollamaResponse = await axios.post(' http://127.0.0.1:11434/api/generate', {
-          model: 'llama3.2', 
-          prompt: this.prompt2,
-          stream: false,
+             const response = await axios.post('https://everyday-api-backend.onrender.com/api/generate', {
+                "prompt": this.prompt2,
+                "model": "llama3.2"
+         
         });
+        console.log(response.data.response)
+        this.summary=response.data.response
     
-        this.summary=ollamaResponse.data.response
         this.loading=true
-        responsiveVoice.speak(this.summary, "UK English Male", { rate: 1.5 });
+        //responsiveVoice.speak(this.summary, "UK English Male", { rate: 1.5 });
 
     
             },
