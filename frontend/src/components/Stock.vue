@@ -44,7 +44,7 @@
 <script>
 import axios from 'axios';
 import CoinChart from './CoinChart.vue';
-//CG-tZoYqhrZ94QZHKbrSs96BgJN	
+
 
 export default{
     name:'Stock',
@@ -64,11 +64,10 @@ export default{
             summary:'',
         }
     },
-//b81e9630-af47-49a3-85cc-6df9652154e4
     methods:{
         async fetchStockData(){
 
-        const response = await axios.get("http://localhost:5000/crypto")
+        const response = await axios.get("https://everyday-api-backend.onrender.com/crypto")
         console.log(response)
         const coins=response.data.data
         const btc = coins.find(coin => coin.symbol === "BTC");

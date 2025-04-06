@@ -77,13 +77,13 @@ export default{
     },
     methods:{
         async fetchTodo(){
-            const response = await axios.get("http://localhost:5000/todos");
+            const response = await axios.get("https://everyday-api-backend.onrender.com/todos");
             this.todos = response.data;
 
         },
 
         async ml_speak(){
-            const res = await fetch('http://localhost:5000/summary');
+            const res = await fetch('https://everyday-api-backend.onrender.com/summary');
              const data = await res.json();
             this.summary= data.summary;
             console.log(this.summary)
@@ -104,12 +104,12 @@ export default{
     async saveTodo() {
       try {
             if (this.editMode) {
-            await axios.put(`http://localhost:5000/todos/${this.newTodo.id}`, {
+            await axios.put(`https://everyday-api-backend.onrender.com/todos/${this.newTodo.id}`, {
                 title: this.newTodo.title,
                 description: this.newTodo.description
             });
         } else {
-          const response = await axios.post("http://localhost:5000/todos", {
+          const response = await axios.post("https://everyday-api-backend.onrender.com/todos", {
             title: this.newTodo.title,
             description: this.newTodo.description
           });
@@ -124,7 +124,7 @@ export default{
        
       async deleteTodo(id) {
       try {
-        await axios.delete(`http://localhost:5000/todos/${id}`);
+        await axios.delete(`https://everyday-api-backend.onrender.com/todos/${id}`);
         this.fetchTodo();
       } catch (error) {
         console.error("Error deleting todo:", error);
