@@ -46,7 +46,7 @@ app.get('/summary',async (req,res)=>{
     prompt += '\nCan you give me a summary of what my tasks are and please limit your answers.';
     console.log(prompt)
 
-    const ollamaResponse = await axios.post(' http://127.0.0.1:11434/api/generate', {
+    const ollamaResponse = await axios.post('https://calculators-grill-tariff-dial.trycloudflare.com/api/generate', {
       model: 'llama3.2', 
       prompt: prompt,
       stream: false,

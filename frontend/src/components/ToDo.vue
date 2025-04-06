@@ -88,6 +88,7 @@ export default{
             this.summary= data.summary;
             console.log(this.summary)
             this.loading=false
+            responsiveVoice.speak(this.summary, "UK English Male", { rate: 1.5 });
 
         },
         openDialog(todo = null) {
