@@ -3,14 +3,8 @@
     <h2 class="text-h5 mb-5 poppins">Your Todo's</h2>
     <hr />
 
-    <v-row class="mt-3">
 
-        <v-col cols="auto">
-            Your Pending Tasks:<v-btn @click="ml_speak" > Talk</v-btn>
-            </v-col>
-            </v-row>
-
-            <v-row justify="end" class="mt-n8">
+            <v-row justify="end" >
         <v-col cols="auto">
             <v-btn style="text-transform: none;" @click="openDialog()">Add new</v-btn>
         </v-col>
@@ -44,9 +38,13 @@
       </v-col>
     </v-row>
 
+    <v-col cols="auto">
+            Your Pending Tasks:<v-btn @click="ml_speak" class="ml-3" > Talk</v-btn>
+            </v-col>
+
     <div class="mt-3">
     <h2>🧠 Your Daily Task Summary</h2>
-    <p v-if="loading">Loading from LLM...</p>
+    <p v-if="loading">Click the LLM summarise button :)</p>
     <p v-else>{{ summary }}</p>
   </div>
             

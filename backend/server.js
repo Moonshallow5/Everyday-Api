@@ -46,11 +46,16 @@ app.get('/summary',async (req,res)=>{
     prompt += '\nCan you give me a summary of what my tasks are and please limit your answers.';
     console.log(prompt)
 
-    const ollamaResponse = await axios.post('https://calculators-grill-tariff-dial.trycloudflare.com/api/generate', {
+    const ollamaResponse = await axios.post('http://127.0.0.1:11434/api/generate', {
       model: 'llama3.2', 
       prompt: prompt,
       stream: false,
-    });
+    },{
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }
+  );
 
     res.json({ summary: ollamaResponse.data.response });
   }catch(error){
@@ -104,16 +109,30 @@ app.post('/api/generate', async (req, res) => {
   const { prompt, model = 'llama3.2' } = req.body;
 
   try {
-    const ollamaResponse = await axios.post('https://calculators-grill-tariff-dial.trycloudflare.com/api/generate', {
+    const ollamaResponse = await axios.post('http://127.0.0.1:11434/api/generate', {
       prompt,
       model,
       stream: false,
-    });
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+  });
 
     res.json(ollamaResponse.data);
   } catch (error) {
-    console.error('Error fetching from Ollama:', error.message);
-    res.status(500).json({ error: 'Failed to get response from Ollama' });
+    console.error('❌ Error fetching from Ollama:', error.message);
+    if (error.response) {
+      console.log('Response status:', error.response.status);
+      console.error('Response data:', error.response.data);
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Request setup error:', error.message);
+    }
+
+    res.status(500).json({ error: 'Failedfff to get response from Ollama' });
   }
 });
 app.get("/crypto", async (req, res) => {

@@ -71,7 +71,7 @@
         </v-col>
     <div class="mt-3">
     <h2>🧠 Your Daily Task Summary</h2>
-    <p v-if="!loading">Loading from LLM...</p>
+    <p v-if="!loading">Click the LLM summarise button :)</p>
     <div v-else>
         <v-btn @click="cancel_talk"> Cancel</v-btn>
         {{ summary }}

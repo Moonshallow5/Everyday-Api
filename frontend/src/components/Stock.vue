@@ -18,8 +18,8 @@
     </v-col>
         <v-col cols="6">
             <v-row class="mb-3 ml-2">
-            <v-btn @click="selected_coin='bitcoin'">BTC</v-btn>
-            <v-btn class="ml-3" @click="selected_coin='ethereum'">ETH</v-btn>
+                <v-btn @click="selected_coin='bitcoin'">BTC</v-btn>
+                <v-btn class="ml-3" @click="selected_coin='ethereum'">ETH</v-btn>
             </v-row>
             <v-card >
                 <CoinChart :coinId='selected_coin' :key="selected_coin" />
